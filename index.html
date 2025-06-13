@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE BEST TEAM STORE - متجر الفريق الأفضل</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #0e7490;
+            --primary-dark: #0c6a83;
+            --secondary: #0891b2;
+            --light: #f1f5f9;
+            --dark: #1e293b;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            scroll-behavior: smooth;
+            color: var(--dark);
+        }
+        
+        .content-section {
+            display: none;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .nav-links li.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            background: #000;
+            border-radius: 0.5rem;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            max-width: 500px;
+            width: 90%;
+            transform: scale(0.9);
+            transition: transform 0.3s;
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+        
+        .product-card {
+            transition: all 0.3s ease;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .product-card:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+        
+        .product-card img {
+            transition: transform 0.5s ease;
+        }
+        
+        .product-card:hover img {
+            transform: scale(1.05);
+        }
+        
+        .discount-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #ef4444;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            z-index: 10;
+        }
+        
+        .category-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .category-btn {
+            background-color: #e2e8f0;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .category-btn:hover, .category-btn.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #0e7490 0%, #0891b2 100%);
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-image {
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .brand-logo {
+            transition: all 0.3s ease;
+            filter: grayscale(100%);
+            opacity: 0.8;
+        }
+        
+        .brand-logo:hover {
+            filter: grayscale(0);
+            opacity: 1;
+            transform: scale(1.05);
+        }
+        
+        .add-to-cart-btn {
+            background: var(--primary);
+            transition: all 0.3s ease;
+        }
+        
+        .add-to-cart-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(14, 116, 144, 0.2);
+        }
+        
+        .section-title {
+            position: relative;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 100px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        
+        .section-title.center::after {
+            right: 50%;
+            transform: translateX(50%);
+        }
+        
+        .feature-box {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .testimonial-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .testimonial-text {
+            position: relative;
+            padding: 20px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            font-style: italic;
+        }
+        
+        .testimonial-text::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            right: 10px;
+            font-size: 80px;
+            color: var(--primary);
+            opacity: 0.1;
+            font-family: serif;
+        }
+        
+        .map-container {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .contact-form input,
+        .contact-form textarea {
+            border: 1px solid #cbd5e1;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(14, 116, 144, 0.1);
+        }
+        
+        footer {
+            background: linear-gradient(to bottom, #0e7490, #0c4a6e);
+        }
+        
+        .footer-column h4 {
+            position: relative;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-column h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--secondary);
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .logo-section {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .section-title::after {
+                right: 50%;
+                transform: translateX(50%);
+            }
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+    <header class="bg-slate-800 text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto flex flex-wrap items-center justify-between p-4 gap-4 header-container">
+            <a href="#" data-target="home-section" class="nav-trigger flex items-center gap-3 text-xl font-bold logo-section">
+                <div class="bg-white p-1 rounded-full">
+                <img src="LOGO THE BEST.jpg" alt="شعار المتجر" class="w-32 h-32 rounded-full border-3 border-cyan-500 shadow-md">
+                </div>
+                <span class="text-4xl font-extrabold text-cyan-200">THE BEST TEAM STORE</span>
+            </a>
+            
+            <div class="relative flex-grow max-w-lg order-3 sm:order-2 w-full sm:w-auto">
+                <input type="text" id="search-input" placeholder="...ابحث عن منتج" class="w-full py-4 px-4 pr-12 rounded-full bg-slate-300 text-white placeholder-slate-900 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all">
+                <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 text-slate-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM11 18C14.866 18 18 14.866 18 11C18 7.13401 14.866 4 11 4C7.13401 4 4 7.13401 4 11C4 14.866 7.13401 18 11 18Z"></path></svg>
+            </div>
+
+            <div class="flex items-center justify-center gap-8 sm:gap-8 order-2 sm:order-3 text-center">
+                <a href="#" aria-label="Account" class="flex flex-col items-center hover:text-cyan-400 transition-colors">
+                    <i class="fas fa-user text-xl sm:text-4xl"></i>
+                    <span class="text-xs font-semibold mt-3">حسابي</span>
+                </a>
+                <a href="#" aria-label="Wishlist" class="flex flex-col items-center hover:text-cyan-400 transition-colors">
+                    <i class="fas fa-heart text-xl sm:text-4xl"></i>
+                    <span class="text-xs font-semibold mt-3">المفضلة</span>
+                </a>
+                <a href="#" aria-label="Cart" class="flex flex-col items-center hover:text-cyan-400 transition-colors relative">
+                    <i class="fas fa-shopping-cart text-xl sm:text-4xl"></i>
+                    <span class="text-xs font-semibold mt-3">السلة</span>
+                    <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <nav class="bg-cyan-800 text-white shadow-md">
+        <ul class="nav-links container mx-auto flex flex-wrap justify-center gap-6 sm:gap-6 p-6 font-semibold">
+            <li data-target="home-section" class="nav-trigger cursor-pointer px-4 py-4 rounded-md hover:bg-cyan-800 transition-colors active">الرئيسية</li>
+            <li data-target="products-section" class="nav-trigger cursor-pointer px-4 py-4 rounded-md hover:bg-cyan-800 transition-colors">المنتجات</li>
+            <li data-target="offers-section" class="nav-trigger cursor-pointer px-4 py-4 rounded-md hover:bg-cyan-800 transition-colors">العروض</li>
+            <li data-target="maintenance-section" class="nav-trigger cursor-pointer px-4 py-4 rounded-md hover:bg-cyan-800 transition-colors">الصيانة</li>
+            <li data-target="support-section" class="nav-trigger cursor-pointer px-4 py-4 rounded-md hover:bg-cyan-800 transition-colors">الدعم</li>
+            <li data-target="contact-section" class="nav-trigger cursor-pointer px-4 py-4 rounded-md hover:bg-cyan-800 transition-colors">اتصل بنا</li>
+        </ul>
+    </nav>
+    
+    <main class="container mx-auto px-4 py-6">
+        <section id="home-section" class="content-section active">
+            <div class="hero-section text-white p-6 md:p-10 mb-10">
+                <div class="hero-content text-center">
+                    <h1 class="text-4xl md:text-6xl font-extrabold mb-3 tracking-tight">مرحبًا بكم في</h1>
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-cyan-200 mb-6">THE BEST TEAM STORE</h1>
+                    <p class="text-lg md:text-xl max-w-2xl mx-auto mb-8 text-slate-100">متجرنا يقدم أفضل المنتجات التقنية بأسعار تنافسية. اكتشف أحدث الأجهزة والابتكارات!</p>
+                    <div class="flex justify-center gap-4 mb-8">
+                        <button class="bg-white text-cyan-800 font-bold py-3 px-8 rounded-full transition-all duration-300 hover:bg-slate-100 hover:shadow-lg transform hover:-translate-y-1">تصفح المنتجات</button>
+                        <button class="bg-transparent border-2 border-white text-white font-bold py-3 px-8 rounded-full transition-all duration-300 hover:bg-white hover:text-cyan-800 transform hover:-translate-y-1">عروض خاصة</button>
+                    </div>
+                </div>
+                <div class="max-w-6xl mx-auto">
+                    <img src="TEAM.jpg" alt="صورة رئيسية" class="w-full rounded-xl hero-image">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="feature-box">
+                    <div class="feature-icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">شحن سريع</h3>
+                    <p class="text-slate-600">توصيل سريع لجميع أنحاء مصر خلال 24-48 ساعة</p>
+                </div>
+                
+                <div class="feature-box">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">دعم فني 24/7</h3>
+                    <p class="text-slate-600">فريق دعم فني متاح على مدار الساعة لمساعدتك</p>
+                </div>
+                
+                <div class="feature-box">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">ضمان لمدة عام</h3>
+                    <p class="text-slate-600">ضمان شامل على جميع المنتجات لمدة عام كامل</p>
+                </div>
+            </div>
+    <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-10 section-title center">العلامات التجارية</h2>
+                <div class="flex flex-wrap justify-center items-center gap-8 md:gap-12">
+                    <a href="https://www.apple.com" target="_blank" aria-label="Apple" class="brand-logo">
+                        <img src="https://logo.clearbit.com/apple.com" alt="Apple" class="h-16" title="Apple">
+                    </a>
+                    <a href="https://www.dell.com" target="_blank" aria-label="Dell" class="brand-logo">
+                        <img src="https://logo.clearbit.com/dell.com" alt="Dell" class="h-16" title="Dell">
+                    </a>
+                    <a href="https://www.hp.com" target="_blank" aria-label="HP" class="brand-logo">
+                        <img src="https://logo.clearbit.com/hp.com" alt="HP" class="h-16" title="HP">
+                    </a>
+                    <a href="https://www.samsung.com" target="_blank" aria-label="Samsung" class="brand-logo">
+                        <img src="https://logo.clearbit.com/samsung.com" alt="Samsung" class="h-16" title="Samsung">
+                    </a>
+                    <a href="https://www.lenovo.com" target="_blank" aria-label="Lenovo" class="brand-logo">
+                        <img src="https://logo.clearbit.com/lenovo.com" alt="Lenovo" class="h-16" title="Lenovo">
+                    </a>
+                    <a href="https://www.logitech.com" target="_blank" aria-label="Logitech" class="brand-logo">
+                        <img src="https://logo.clearbit.com/logitech.com" alt="Logitech" class="h-16" title="Logitech">
+                    </a>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-8 section-title center">أبرز منتجات شركائنا التجاريين</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="product-card group rounded-xl overflow-hidden">
+                        <div class="relative">
+                            <img src="https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/mbp14-spacegray-select-202301?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1671304673204" alt="MacBook Pro" class="w-full h-64 object-contain bg-white p-4">
+                        </div>
+                        <div class="p-5 text-right">
+                            <h3 class="text-xl font-bold mb-2 text-slate-800">لابتوب MacBook Pro 14</h3>
+                            <p class="text-slate-600 mb-4 h-12">شريحة M3 Pro، شاشة Liquid Retina XDR، أداء فائق للمحترفين.</p>
+                            <div class="flex justify-between items-center">
+                                <p class="text-2xl font-black text-cyan-600">75,000 جنيه</p>
+                                <button class="add-to-cart-btn text-white font-bold py-2 px-4 rounded-lg">إضافة للسلة</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card group rounded-xl overflow-hidden">
+                        <div class="relative">
+                            <img src="DELL XPS 15.jpg" alt="Dell XPS 15" class="w-full h-64 object-contain bg-white p-4">
+                        </div>
+                        <div class="p-5 text-right">
+                            <h3 class="text-xl font-bold mb-2 text-slate-800">لابتوب Dell XPS 15</h3>
+                            <p class="text-slate-600 mb-4 h-12">شاشة InfinityEdge، معالجات Intel Core Ultra، تصميم أنيق.</p>
+                            <div class="flex justify-between items-center">
+                                <p class="text-2xl font-black text-cyan-600">68,000 جنيه</p>
+                                <button class="add-to-cart-btn text-white font-bold py-2 px-4 rounded-lg">إضافة للسلة</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card group rounded-xl overflow-hidden">
+                        <div class="relative">
+                            <img src="HP Spectre x360 14.jpeg" alt="HP Spectre x360" class="w-full h-64 object-contain bg-white p-4">
+                        </div>
+                        <div class="p-5 text-right">
+                            <h3 class="text-xl font-bold mb-2 text-slate-800">لابتوب HP Spectre x360 14</h3>
+                            <p class="text-slate-600 mb-4 h-12">تصميم 2 في 1، مدعوم بالذكاء الاصطناعي، شاشة OLED مذهلة.</p>
+                            <div class="flex justify-between items-center">
+                                <p class="text-2xl font-black text-cyan-600">62,000 جنيه</p>
+                                <button class="add-to-cart-btn text-white font-bold py-2 px-4 rounded-lg">إضافة للسلة</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-8 section-title center">فيديو عن فريق العمل و التطور التكنولوجي </h2>
+                <div class="video-container mx-auto max-w-4xl shadow-xl rounded-xl overflow-hidden">
+                    <iframe src="للتطور التكنولوجي.mp4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-8 section-title center">آراء عملائنا</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="testimonial-card">
+                        <div class="flex items-center mb-4">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="عميل" class="w-16 h-16 rounded-full mr-4">
+                            <div>
+                                <h4 class="font-bold text-lg">أحمد محمود</h4>
+                                <div class="flex text-yellow-400">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="testimonial-text">
+                            <p>تجربة شراء رائعة! المنتج وصل في الوقت المحدد وبجودة عالية. فريق الدعم كان سريعًا في الرد على استفساراتي. بالتأكيد سأتعامل معهم مرة أخرى.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-card">
+                        <div class="flex items-center mb-4">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="عميل" class="w-16 h-16 rounded-full mr-4">
+                            <div>
+                                <h4 class="font-bold text-lg">سارة عبد الرحمن</h4>
+                                <div class="flex text-yellow-400">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="testimonial-text">
+                            <p>اشتريت لابتوب من المتجر وكان السعر ممتازًا مقارنة بالمتاجر الأخرى. عملية الشحن كانت سريعة والتغليف احترافي. شكرًا لفريق المتجر على الخدمة المتميزة.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="products-section" class="content-section">
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-6">
+                <h1 class="text-3xl md:text-4xl font-bold text-center mb-2 section-title center">منتجاتنا</h1>
+                <p class="text-lg text-slate-600 mb-6 text-center">استكشف مجموعتنا الواسعة من المنتجات التقنية عالية الجودة.</p>
+                
+                <div class="category-filter">
+                    <button class="category-btn active" data-category="all">الكل</button>
+                    <button class="category-btn" data-category="laptops">لابتوبات</button>
+                    <button class="category-btn" data-category="phones">هواتف</button>
+                    <button class="category-btn" data-category="tablets">أجهزة لوحية</button>
+                    <button class="category-btn" data-category="accessories">ملحقات</button>
+                </div>
+                
+                <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <div class="product-card rounded-xl overflow-hidden" data-category="laptops">
+                        <div class="relative">
+                            <img src="https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/mbp14-spacegray-select-202301?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1671304673204" alt="لابتوب MacBook Pro 14" class="w-full h-48 object-contain bg-white p-4">
+                        </div>
+                        <div class="p-4 text-right">
+                            <h3 class="text-lg font-bold mb-2 text-slate-800">لابتوب MacBook Pro 14</h3>
+                            <p class="text-slate-600 mb-3 text-sm h-12">شريحة M3، 8GB RAM، 512GB SSD، شاشة Liquid Retina XDR مقاس 14 بوصة</p>
+                            <div class="flex justify-between items-center">
+                                <p class="text-xl font-black text-cyan-600">75,000 جنيه</p>
+                                <button class="add-to-cart-btn text-white font-bold py-2 px-4 rounded-lg">إضافة</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card rounded-xl overflow-hidden" data-category="laptops">
+                        <div class="relative">
+                            <img src="لابتوب Dell XPS 13.jpg" alt="لابتوب Dell XPS 13" class="w-full h-48 object-contain bg-white p-4">
+                        </div>
+                        <div class="p-4 text-right">
+                            <h3 class="text-lg font-bold mb-2 text-slate-800">لابتوب Dell XPS 13</h3>
+                            <p class="text-slate-600 mb-3 text-sm h-12">معالج Intel Core Ultra 7، 16GB RAM، 512GB SSD، شاشة 13.4 بوصة FHD+</p>
+                            <div class="flex justify-between items-center">
+                                <p class="text-xl font-black text-cyan-600">25,000 جنيه</p>
+                                <button class="add-to-cart-btn text-white font-bold py-2 px-4 rounded-lg">إضافة</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card rounded-xl overflow-hidden" data-category="laptops">
+                        <div class="relative">
+                            <img src="HP Spectre x360 14.jpeg" alt="لابتوب HP Spectre x360" class="w-full h-48 object-contain bg-white p-4">
+                        </div>
+                        <div class="p-4 text-right">
+                            <h3 class="text-lg font-bold mb-2 text-slate-800">لابتوب HP Spectre x360</h3>
+                            <p class="text-slate-600 mb-3 text-sm h-12">معالج Intel Core Ultra 5، 16GB RAM، 512GB SSD، شاشة OLED لمس 14 بوصة</p>
+                            <div class="flex justify-between items-center">
+                                <p class="text-xl font-black text-cyan-600">62,000 جنيه</p>
+                                <button class="add-to-cart-btn text-white font-bold py-2 px-4 rounded-lg">إضافة</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card rounded-xl overflow-hidden" data-category="laptops">
+                        <div class="relative">
+                            <img src="Lenovo ThinkPad X1.jpg" alt="لابتوب Lenovo ThinkPad X1" class="w-full h-48 object-contain bg-white p-4">
+                        </div>
+                        <div class="p-4 text-right">
+                            <h3 class="text-lg font-bold mb-2 text-slate-800">لابتوب Lenovo ThinkPad X1</h3>
+                            <p class="text-slate-600 mb-3 text-sm h-12">معالج Core Ultra 7، 32GB RAM، 1TB SSD، شاشة OLED لمس 14 بوصة</p>
+                            <div class="flex justify-between items-center">
+                                <p class="text-xl font-black text-cyan-600">78,000 جنيه</p>
+                                <button class="add-to-cart-btn text-white font-bold py-2 px-4 rounded-lg">إضافة</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card rounded-xl overflow-hidden" data-category="phones">
+                        <div class="relative">
+                            <img src="Samsung S24 Ultra.png" alt="هاتف Samsung S24 Ultra" class="w-full h-48 object-contain bg-white p-4">
+                        </div>
+                        <div class="p-4 text-right">
+                            <h3 class="text-lg font-bold mb-2 text-slate-800">هاتف Samsung S24 Ultra</h3>
+                            <p class="text-slate-600 mb-3 text-sm h-12">كاميرا ثورية، قلم S Pen مدمج، أقوى معالجات Galaxy.</p>
+                            <div class="flex justify-between items-center">
+                                <p class="text-xl font-black text-cyan-600">55,000 جنيه</p>
+                                <button class="add-to-cart-btn text-white font-bold py-2 px-4 rounded-lg">إضافة</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card rounded-xl overflow-hidden" data-category="phones">
+                        <div class="relative">
+                            <img src="https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-1inch?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1692845691748" alt="iPhone 15 Pro" class="w-full h-48 object-contain bg-white p-4">
+                        </div>
+                        <div class="p-4 text-right">
+                            <h3 class="text-lg font-bold mb-2 text-slate-800">iPhone 15 Pro Max</h3>
+                            <p class="text-slate-600 mb-3 text-sm h-12">شريحة A17 Pro، كاميرا رئيسية 48MP، شاشة Super Retina XDR</p>
+                            <div class="flex justify-between items-center">
+                                <p class="text-xl font-black text-cyan-600">65,000 جنيه</p>
+                                <button class="add-to-cart-btn text-white font-bold py-2 px-4 rounded-lg">إضافة</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card rounded-xl overflow-hidden" data-category="tablets">
+                        <div class="relative">
+                            <img src="Apple iPad Air.jpg" alt="Apple iPad Air" class="w-full h-48 object-contain bg-white p-4">
+                        </div>
+                        <div class="p-4 text-right">
+                            <h3 class="text-lg font-bold mb-2 text-slate-800">جهاز لوحي Apple iPad Air</h3>
+                            <p class="text-slate-600 mb-3 text-sm h-12">شريحة M2، شاشة Liquid Retina مقاس 13 بوصة، يدعم Apple Pencil Pro</p>
+                            <div class="flex justify-between items-center">
+                                <p class="text-xl font-black text-cyan-600">28,000 جنيه</p>
+                                <button class="add-to-cart-btn text-white font-bold py-2 px-4 rounded-lg">إضافة</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card rounded-xl overflow-hidden" data-category="accessories">
+                        <div class="relative">
+                            <img src="https://www.logitech.com/content/dam/logitech/en/products/mice/mx-master-3s/gallery/mx-master-3s-mouse-top-view-graphite.png" alt="ماوس Logitech MX Master 3S" class="w-full h-48 object-contain bg-white p-4">
+                        </div>
+                        <div class="p-4 text-right">
+                            <h3 class="text-lg font-bold mb-2 text-slate-800">ماوس Logitech MX Master 3S</h3>
+                            <p class="text-slate-600 mb-3 text-sm h-12">دقة فائقة 8K DPI، نقرات هادئة، تصميم مريح.</p>
+                            <div class="flex justify-between items-center">
+                                <p class="text-xl font-black text-cyan-600">4,500 جنيه</p>
+                                <button class="add-to-cart-btn text-white font-bold py-2 px-4 rounded-lg">إضافة</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p id="no-results-message" class="text-lg text-red-500 mt-8 text-center hidden">.لم يتم العثور على منتجات تطابق بحثك</p>
+            </div>
+        </section>
+
+        <section id="offers-section" class="content-section">
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <h1 class="text-3xl md:text-4xl font-bold text-center mb-2 section-title center">عروضنا الخاصة</h1>
+                <p class="text-lg text-slate-600 mb-8 text-center">!لا تفوت أحدث عروضنا وخصوماتنا الحصرية</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="product-card group rounded-xl overflow-hidden relative">
+                        <div class="discount-badge">خصم 15%</div>
+                        <img src="عروض اللابتوب.jpg" alt="عرض لابتوب" class="w-full h-56 object-cover">
+                        <div class="p-5 text-right">
+                            <h3 class="text-xl font-bold mb-2 text-slate-800">عروض اللابتوبات</h3>
+                            <p class="text-slate-600 mb-4">.احصل على خصم 15% على جميع اللابتوبات من Dell و HP و Lenovo</p>
+                            <div class="flex justify-between items-center">
+                                <p class="text-2xl font-black text-green-600">ابتداءً من 21,250 جنيه</p>
+                                <button class="w-fit bg-green-600 text-white font-bold py-2 px-6 rounded-lg transition-all duration-300 hover:bg-green-700 hover:shadow-lg">شاهد العرض</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card group rounded-xl overflow-hidden relative">
+                        <div class="discount-badge">خصم 25%</div>
+                        <img src="عروض السماعات.jpg" alt="عرض سماعات" class="w-full h-56 object-cover">
+                        <div class="p-5 text-right">
+                            <h3 class="text-xl font-bold mb-2 text-slate-800">عروض السماعات</h3>
+                            <p class="text-slate-600 mb-4">.خصم 25% على جميع سماعات الر من Sony و Bose و Sennheiser</p>
+                            <div class="flex justify-between items-center">
+                                <p class="text-2xl font-black text-purple-600">ابتداءً من 2,250 جنيه</p>
+                                <button class="w-fit bg-purple-600 text-white font-bold py-2 px-6 rounded-lg transition-all duration-300 hover:bg-purple-700 hover:shadow-lg">شاهد العرض</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="maintenance-section" class="content-section">
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <h1 class="text-3xl md:text-4xl font-bold text-center mb-2 section-title center">خدمات الصيانة</h1>
+                <p class="text-lg text-slate-600 mb-8 text-center max-w-2xl mx-auto">.نقدم أفضل خدمات الصيانة لأجهزتك التقنية. فريقنا من الفنيين المتخصصين على استعداد لمساعدتك في أي مشكلة</p>
+                <div class="flex flex-col md:flex-row justify-center items-center gap-8">
+                    <img src="خدمات الصيانه.jpg" alt="خدمة صيانة" class="w-full max-w-md rounded-lg shadow-lg">
+                    <ul class="text-right text-lg text-slate-700 space-y-3 p-6 bg-slate-50 rounded-lg border border-slate-200 min-w-[300px]">
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-cyan-500"></i>صيانة اللابتوبات وأجهزة الكمبيوتر</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-cyan-500"></i>إصلاح الهواتف الذكية والأجهزة اللوحية</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-cyan-500"></i>استعادة البيانات المفقودة</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-cyan-500"></i>تركيب وتحديث البرامج وأنظمة التشغيل</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-cyan-500"></i>تنظيف الأجهزة من الفيروسات والبرمجيات الضارة</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-cyan-500"></i>ترقية مكونات الأجهزة (RAM، SSD، إلخ)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="support-section" class="content-section">
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <h1 class="text-3xl md:text-4xl font-bold text-center mb-2 section-title center">الدعم الفني</h1>
+                <p class="text-lg text-slate-600 mb-8 text-center">!نحن هنا لمساعدتك! تواصل معنا للحصول على الدعم الفني</p>
+                <form id="support-form" class="max-w-xl mx-auto text-right space-y-5">
+                    <div>
+                        <label class="block text-slate-700 mb-2">الاسم الكامل</label>
+                        <input type="text" placeholder="اسمك الكامل" required class="w-full p-3 rounded-lg border border-slate-300 focus:border-cyan-500 focus:ring-cyan-500 transition">
+                    </div>
+                    <div>
+                        <label class="block text-slate-700 mb-2">البريد الإلكتروني</label>
+                        <input type="email" placeholder="بريدك الإلكتروني" required class="w-full p-3 rounded-lg border border-slate-300 focus:border-cyan-500 focus:ring-cyan-500 transition">
+                    </div>
+                    <div>
+                        <label class="block text-slate-700 mb-2">نوع المشكلة</label>
+                        <select class="w-full p-3 rounded-lg border border-slate-300 focus:border-cyan-500 focus:ring-cyan-500 transition">
+                            <option>اختر نوع المشكلة</option>
+                            <option>مشكلة في المنتج</option>
+                            <option>مشكلة في الشحن</option>
+                            <option>استفسار فني</option>
+                            <option>استفسار قبل الشراء</option>
+                            <option>أخرى</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-slate-700 mb-2">وصف المشكلة</label>
+                        <textarea placeholder="صف مشكلتك هنا..." rows="5" required class="w-full p-3 rounded-lg border border-slate-300 focus:border-cyan-500 focus:ring-cyan-500 transition"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-cyan-600 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 hover:bg-cyan-700 hover:shadow-lg">إرسال طلب دعم</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="contact-section" class="content-section">
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <h1 class="text-3xl md:text-4xl font-bold text-center mb-2 section-title center">اتصل بنا</h1>
+                <p class="text-lg text-slate-600 mb-8 text-center">.يسعدنا تواصلك معنا في أي وقت</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                    <div class="space-y-6 text-right">
+                        <div>
+                            <h4 class="font-bold text-lg mb-3"><i class="fas fa-map-marker-alt text-cyan-500 ml-2"></i>العنوان</h4>
+                            <p>شارع الملك أحمس - حي الجامعه - الفيوم-مصر</p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-bold text-lg mb-3"><i class="fas fa-phone text-cyan-500 ml-2"></i>الهاتف</h4>
+                            <p>0201016881315</p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-bold text-lg mb-3"><i class="fas fa-envelope text-cyan-500 ml-2"></i>البريد الإلكتروني</h4>
+                            <p>info@thebestteamstore.com</p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-bold text-lg mb-3"><i class="fas fa-clock text-cyan-500 ml-2"></i>أوقات العمل</h4>
+                            <p>الأحد - الخميس: 9 صباحاً - 10 مساءً</p>
+                            <p>الجمعة - السبت: 4 مساءً - 12 منتصف الليل</p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-bold text-lg mb-3">موقعنا على الخريطة</h4>
+                            <div class="map-container">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3485.426960855238!2d30.84439007551846!3d29.30000027523918!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x145979a8e453112b%3A0x6b4c3b5b6b8b4b7b!2sFayoum%20University!5e0!3m2!1sen!2seg!4v1716926955486!5m2!1sen!2seg" width="100%" height="300" class="border-0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
+                        <h4 class="font-bold text-lg mb-4 text-center">أرسل لنا رسالة سريعة</h4>
+                        <form id="contact-form" class="space-y-4">
+                            <div>
+                                <label class="block text-slate-700 mb-2">الاسم</label>
+                                <input type="text" placeholder="الاسم" class="w-full p-3 rounded-lg border border-slate-300 focus:border-cyan-500 focus:ring-cyan-500 transition">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-slate-700 mb-2">البريد الإلكتروني</label>
+                                <input type="email" placeholder="البريد الإلكتروني" class="w-full p-3 rounded-lg border border-slate-300 focus:border-cyan-500 focus:ring-cyan-500 transition">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-slate-700 mb-2">الموضوع</label>
+                                <input type="text" placeholder="موضوع الرسالة" class="w-full p-3 rounded-lg border border-slate-300 focus:border-cyan-500 focus:ring-cyan-500 transition">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-slate-700 mb-2">الرسالة</label>
+                                <textarea placeholder="رسالتك" rows="4" class="w-full p-3 rounded-lg border border-slate-300 focus:border-cyan-500 focus:ring-cyan-500 transition"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-cyan-600 text-white font-bold py-3 rounded-lg hover:bg-cyan-700 transition">إرسال</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-800 text-slate-300 pt-12 pb-6 mt-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8 text-right">
+                <div class="space-y-3 footer-column">
+                    <h4 class="font-bold text-lg text-white mb-3">عن المتجر</h4>
+                    <p>متجر الفريق الأفضل يقدم أحدث الأجهزة الإلكترونية والتقنية بأسعار تنافسية وخدمة عملاء متميزة. نحن نؤمن بتقديم أفضل المنتجات مع ضمان الجودة والكفاءة.</p>
+                    <div class="flex gap-4 mt-4">
+                        <a href="https://facebook.com" target="_blank" aria-label="فيسبوك" class="text-xl hover:text-cyan-400 transition-colors"><i class="fab fa-facebook"></i></a>
+                        <a href="https://twitter.com" target="_blank" aria-label="تويتر" class="text-xl hover:text-cyan-400 transition-colors"><i class="fab fa-twitter"></i></a>
+                        <a href="https://instagram.com" target="_blank" aria-label="انستغرام" class="text-xl hover:text-cyan-400 transition-colors"><i class="fab fa-instagram"></i></a>
+                        <a href="https://youtube.com" target="_blank" aria-label="يوتيوب" class="text-xl hover:text-cyan-400 transition-colors"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="space-y-2 footer-column">
+                    <h4 class="font-bold text-lg text-white mb-3">روابط سريعة</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" data-target="home-section" class="nav-trigger hover:text-cyan-400 transition-colors">الرئيسية</a></li>
+                        <li><a href="#" data-target="products-section" class="nav-trigger hover:text-cyan-400 transition-colors">المنتجات</a></li>
+                        <li><a href="#" data-target="offers-section" class="nav-trigger hover:text-cyan-400 transition-colors">العروض</a></li>
+                        <li><a href="#" data-target="maintenance-section" class="nav-trigger hover:text-cyan-400 transition-colors">الصيانة</a></li>
+                        <li><a href="#" data-target="support-section" class="nav-trigger hover:text-cyan-400 transition-colors">الدعم</a></li>
+                        <li><a href="#" data-target="contact-section" class="nav-trigger hover:text-cyan-400 transition-colors">اتصل بنا</a></li>
+                    </ul>
+                </div>
+
+                <div class="space-y-3 footer-column">
+                    <h4 class="font-bold text-lg text-white mb-3">وسائل الدفع</h4>
+                    <p>نقبل جميع وسائل الدفع الإلكترونية والشحن لجميع أنحاء مصر.</p>
+                    <div class="flex flex-wrap gap-3 mt-3">
+                        <div class="bg-white p-2 rounded-lg">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/800px-Mastercard-logo.svg.png" alt="Mastercard" class="h-8">
+                        </div>
+                        <div class="bg-white p-2 rounded-lg">
+                            <img src="VISA CARD.jpeg" alt="Visa" class="h-8">
+                        </div>
+                        <div class="bg-white p-2 rounded-lg">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Google_Pay_Logo.svg/512px-Google_Pay_Logo.svg.png" alt="Google Pay" class="h-8">
+                        </div>
+                        <div class="bg-white p-2 rounded-lg">
+                            <img src="FAWRY.jpeg" alt="Fawry" class="h-8">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="font-bold text-lg text-white mb-3">النشرة البريدية</h4>
+                    <p>اشترك لتصلك أحدث العروض والمنتجات</p>
+                    <form id="newsletter-form" class="mt-4 flex flex-col gap-3">
+                        <input type="email" placeholder="ادخل بريدك الإلكتروني" class="w-full p-3 rounded-lg border-none text-slate-800">
+                        <button type="submit" class="bg-cyan-600 text-white font-bold p-3 rounded-lg hover:bg-cyan-700 transition-colors">اشتراك</button>
+                    </form>
+                </div>
+            </div>
+            <div class="text-center pt-8 border-t border-slate-700">
+                <p>© 2025 THE BEST TEAM STORE. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="product-modal-overlay" class="modal-overlay">
+        <div class="modal-content text-right">
+            <div class="flex justify-between items-start">
+                <h2 id="modal-title" class="text-2xl font-bold text-slate-900 mb-4">تفاصيل المنتج</h2>
+                <button id="modal-close-btn" class="text-2xl text-slate-500 hover:text-slate-800">&times;</button>
+            </div>
+            <img id="modal-img" src="" alt="Product Image" class="w-full h-64 object-contain rounded-lg mb-4 bg-slate-100">
+            <p id="modal-desc" class="text-slate-700 mb-4"></p>
+            <p id="modal-price" class="text-3xl font-black text-cyan-600 mb-6"></p>
+            <button id="modal-add-to-cart-btn" class="w-full bg-cyan-600 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 hover:bg-cyan-700 hover:shadow-lg">تأكيد الإضافة إلى السلة</button>
+        </div>
+    </div>
+    
+    <div id="toast-notification" class="fixed bottom-5 right-5 bg-green-500 text-white py-3 px-6 rounded-lg shadow-xl transition-all duration-500 transform translate-y-20 opacity-0" role="alert" aria-live="assertive">
+    </div>
+    
+    <div id="form-toast-notification" class="fixed bottom-5 right-5 bg-blue-500 text-white py-3 px-6 rounded-lg shadow-xl transition-all duration-500 transform translate-y-20 opacity-0" role="alert" aria-live="assertive">
+        <i class="fas fa-paper-plane ml-2"></i> !تم إرسال رسالتك بنجاح
+    </div>
+
+    <button id="scroll-to-top" title="العودة للأعلى" class="fixed bottom-5 left-5 bg-cyan-600 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center text-xl transition-all duration-300 opacity-0 transform scale-0 hover:bg-cyan-700">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        (() => {
+            const state = {
+                currentPage: 'home-section',
+                toastTimer: null,
+                formToastTimer: null,
+                currentProduct: null
+            };
+
+            const ui = {
+                navLinks: document.querySelectorAll('.nav-links li'),
+                navTriggers: document.querySelectorAll('.nav-trigger'),
+                contentSections: document.querySelectorAll('.content-section'),
+                searchInput: document.getElementById('search-input'),
+                productCards: document.querySelectorAll('.product-card'),
+                noResultsMessage: document.getElementById('no-results-message'),
+                addToCartButtons: document.querySelectorAll('.add-to-cart-btn'),
+                toast: document.getElementById('toast-notification'),
+                formToast: document.getElementById('form-toast-notification'),
+                scrollToTopBtn: document.getElementById('scroll-to-top'),
+                supportForm: document.getElementById('support-form'),
+                contactForm: document.getElementById('contact-form'),
+                newsletterForm: document.getElementById('newsletter-form'),
+                mainContent: document.querySelector('main'),
+                productModal: {
+                    overlay: document.getElementById('product-modal-overlay'),
+                    closeBtn: document.getElementById('modal-close-btn'),
+                    title: document.getElementById('modal-title'),
+                    img: document.getElementById('modal-img'),
+                    desc: document.getElementById('modal-desc'),
+                    price: document.getElementById('modal-price'),
+                    addToCartBtn: document.getElementById('modal-add-to-cart-btn'),
+                },
+                categoryButtons: document.querySelectorAll('.category-btn')
+            };
+
+            const showPage = (targetId) => {
+                if (!targetId || state.currentPage === targetId) return;
+                state.currentPage = targetId;
+
+                ui.contentSections.forEach(section => section.classList.remove('active'));
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) targetSection.classList.add('active');
+
+                ui.navLinks.forEach(link => {
+                    link.classList.toggle('active', link.dataset.target === targetId);
+                });
+
+                if (targetId !== 'products-section') {
+                    ui.searchInput.value = '';
+                    filterProducts('');
+                }
+            };
+
+            const filterProducts = (searchTerm) => {
+                const term = searchTerm.toLowerCase().trim();
+                let productsFound = 0;
+
+                ui.productCards.forEach(card => {
+                    const title = card.dataset.title ? card.dataset.title.toLowerCase() : '';
+                    const description = card.querySelector('p') ? card.querySelector('p').textContent.toLowerCase() : '';
+                    
+                    const isVisible = title.includes(term) || description.includes(term);
+                    card.style.display = isVisible ? 'block' : 'none';
+                    if (isVisible) productsFound++;
+                });
+
+                ui.noResultsMessage.style.display = productsFound === 0 ? 'block' : 'none';
+            };
+
+            const filterByCategory = (category) => {
+                ui.productCards.forEach(card => {
+                    if (category === 'all' || card.dataset.category === category) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            };
+
+            const showToast = (toastElement, message, duration = 3000) => {
+                const timerProp = toastElement === ui.toast ? 'toastTimer' : 'formToastTimer';
+                toastElement.innerHTML = message;
+
+                if (state[timerProp]) clearTimeout(state[timerProp]);
+
+                toastElement.classList.remove('opacity-0', 'translate-y-20');
+                toastElement.classList.add('opacity-100', 'translate-y-0');
+
+                state[timerProp] = setTimeout(() => {
+                    toastElement.classList.remove('opacity-100', 'translate-y-0');
+                    toastElement.classList.add('opacity-0', 'translate-y-20');
+                    state[timerProp] = null;
+                }, duration);
+            };
+            
+            const openProductModal = (card) => {
+                const title = card.querySelector('h3').textContent;
+                const price = card.querySelector('.text-cyan-600').textContent;
+                const img = card.querySelector('img').src;
+                const desc = card.querySelector('p').textContent;
+                
+                state.currentProduct = { title, price, img, desc };
+                
+                ui.productModal.title.textContent = state.currentProduct.title;
+                ui.productModal.img.src = state.currentProduct.img;
+                ui.productModal.img.alt = state.currentProduct.title;
+                ui.productModal.desc.textContent = state.currentProduct.desc;
+                ui.productModal.price.textContent = state.currentProduct.price;
+
+                ui.productModal.overlay.classList.add('active');
+            };
+
+            const closeProductModal = () => {
+                ui.productModal.overlay.classList.remove('active');
+                state.currentProduct = null;
+            };
+
+            const handleScroll = () => {
+                const show = window.scrollY > 300;
+                ui.scrollToTopBtn.classList.toggle('opacity-0', !show);
+                ui.scrollToTopBtn.classList.toggle('scale-0', !show);
+            };
+            
+            const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            const handleFormSubmit = (event) => {
+                event.preventDefault();
+                showToast(ui.formToast, '<i class="fas fa-paper-plane ml-2"></i> !تم إرسال رسالتك بنجاح');
+                event.target.reset();
+            };
+
+            const initEventListeners = () => {
+                ui.navTriggers.forEach(trigger => {
+                    trigger.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        const targetId = trigger.dataset.target;
+                        showPage(targetId);
+                        if (targetId) ui.mainContent.scrollIntoView({ behavior: 'smooth' });
+                    });
+                });
+
+                ui.searchInput.addEventListener('input', (e) => {
+                    if (state.currentPage !== 'products-section') showPage('products-section');
+                    filterProducts(e.target.value);
+                });
+                
+                ui.addToCartButtons.forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const card = e.target.closest('.product-card');
+                        openProductModal(card);
+                    });
+                });
+
+                ui.productModal.closeBtn.addEventListener('click', closeProductModal);
+                ui.productModal.overlay.addEventListener('click', (e) => {
+                    if (e.target === ui.productModal.overlay) closeProductModal();
+                });
+                
+                ui.productModal.addToCartBtn.addEventListener('click', () => {
+                    const message = `<i class="fas fa-check-circle ml-2"></i> !تمت إضافة "${state.currentProduct.title}" إلى السلة`;
+                    showToast(ui.toast, message);
+                    closeProductModal();
+                });
+                
+                window.addEventListener('scroll', handleScroll);
+                ui.scrollToTopBtn.addEventListener('click', scrollToTop);
+                
+                ui.supportForm.addEventListener('submit', handleFormSubmit);
+                ui.contactForm.addEventListener('submit', handleFormSubmit);
+                ui.newsletterForm.addEventListener('submit', handleFormSubmit);
+                
+                ui.categoryButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        ui.categoryButtons.forEach(btn => btn.classList.remove('active'));
+                        button.classList.add('active');
+                        filterByCategory(button.dataset.category);
+                    });
+                });
+            };
+
+            document.addEventListener('DOMContentLoaded', () => {
+                initEventListeners();
+                showPage('home-section');
+            });
+        })();
+    </script>
+</body>
+</html>
